@@ -1,11 +1,30 @@
 import React, { Component } from 'react';
+import { Navigate } from 'react-router-dom';
 
 class Connexion extends Component {
+  state = {
+    pseudo: '',
+    goToChat: false,
+  };
+
+  handleChange = (event) => {
+    const pseudo = event.target.value;
+    this.setState({ pseudo });
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.setState({ goToChat: true });
+  };
+
   render() {
+    if (this.state.goToChat) {
+      return <Navigate to={`/pseudo/${this.state.pseudo}`}></Navigate>;
+    }
     return (
       <div className="connexionBox">
-        <form className="connexion">
-          <input placeholder="Pseudo" type="text" required />
+        <form className="connexion" onSubmit={this.handleSubmit}>
+          <input value={this.state.pseudo} onChange={this.handleChange} placeholder="Pseudo" type="text" required />
           <button type="submit">Go</button>
         </form>
       </div>
